@@ -15,23 +15,31 @@
         .modal-open { overflow: hidden; }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-4 md:p-6 selection:bg-blue-500 selection:text-white">
+<body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-4 md:p-6 selection:bg-amber-500 selection:text-white">
 
     <div class="max-w-4xl mx-auto space-y-4">
         
         <!-- Header -->
         <header class="flex justify-between items-center bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
-            <div class="flex items-center space-x-3">
-                <div class="p-2 bg-blue-900/50 rounded-lg text-blue-400">
-                    <i data-lucide="shield-alert" class="w-8 h-8"></i>
+            <div class="flex items-center space-x-4">
+                <div class="p-2 bg-amber-900/40 rounded-xl border border-amber-500/30">
+                    <!-- Custom Laser Warning SVG -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 87" class="w-10 h-10">
+                        <path d="M50 5 L95 83 L5 83 Z" fill="#F59E0B" stroke="#F59E0B" stroke-width="4" stroke-linejoin="round"/>
+                        <path d="M50 12 L87 78 L13 78 Z" fill="#111827"/>
+                        <path d="M50 72 L75 72" stroke="#F59E0B" stroke-width="4" stroke-linecap="round"/>
+                        <path d="M30 40 L60 72" stroke="#EF4444" stroke-width="4"/>
+                        <circle cx="30" cy="40" r="4" fill="#EF4444"/>
+                        <path d="M30 31 L30 20 M30 49 L30 60 M21 40 L10 40 M39 40 L50 40 M24 34 L16 26 M36 46 L44 54 M24 46 L16 54 M36 34 L44 26" stroke="#EF4444" stroke-width="2.5" stroke-linecap="round"/>
+                    </svg>
                 </div>
                 <div>
                     <h1 class="text-xl font-bold text-white" data-i18n="title">Selettore DPI Laser EN 207</h1>
-                    <p class="text-xs text-gray-400" data-i18n="subtitle">Stima scala LB basata su fisica laser</p>
+                    <p class="text-xs text-amber-400" data-i18n="subtitle">Stima scala LB basata su fisica laser</p>
                 </div>
             </div>
-            <button id="langToggle" class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-sm font-semibold text-gray-200">
-                <i data-lucide="languages" class="w-4 h-4"></i>
+            <button id="langToggle" class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-sm font-semibold text-gray-200 border border-gray-600">
+                <i data-lucide="languages" class="w-4 h-4 text-amber-500"></i>
                 <span id="langLabel">EN</span>
             </button>
         </header>
@@ -41,7 +49,7 @@
             <!-- Input Panel -->
             <main class="bg-gray-800 p-4 md:p-5 rounded-xl shadow-lg border border-gray-700 space-y-4">
                 <h2 class="text-base font-semibold flex items-center space-x-2 border-b border-gray-700 pb-2">
-                    <i data-lucide="sliders" class="w-5 h-5 text-blue-400"></i>
+                    <i data-lucide="sliders" class="w-5 h-5 text-amber-500"></i>
                     <span data-i18n="params">Parametri Laser</span>
                 </h2>
 
@@ -50,7 +58,7 @@
                     <div class="grid grid-cols-2 gap-2 items-center">
                         <label class="text-sm font-medium text-gray-300" data-i18n="wavelength">Lunghezza d'onda</label>
                         <div class="relative">
-                            <input type="number" id="wavelength" step="10" min="10" value="1550" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white text-sm">
+                            <input type="number" id="wavelength" step="10" min="10" value="1550" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
                             <span class="absolute right-3 top-1.5 text-xs text-gray-400">nm</span>
                         </div>
                     </div>
@@ -59,7 +67,7 @@
                     <div class="grid grid-cols-2 gap-2 items-center">
                         <label class="text-sm font-medium text-gray-300" data-i18n="diameter">Diametro Fascio</label>
                         <div class="relative">
-                            <input type="number" id="diameter" step="0.1" min="0.1" value="1" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white text-sm">
+                            <input type="number" id="diameter" step="0.1" min="0.1" value="1" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
                             <span class="absolute right-3 top-1.5 text-xs text-gray-400">mm</span>
                         </div>
                     </div>
@@ -68,20 +76,20 @@
                     <div class="pt-2 border-t border-gray-700">
                         <label class="block text-sm font-medium text-gray-300 mb-2" data-i18n="mode">Modalità Operative (Multi-selezione)</label>
                         <div class="grid grid-cols-2 gap-2 text-sm">
-                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600">
-                                <input type="checkbox" name="mode" value="D" checked class="rounded bg-gray-800 border-gray-500 text-blue-500 focus:ring-blue-500">
+                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
+                                <input type="checkbox" name="mode" value="D" checked class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500">
                                 <span data-i18n="modeD">D (Continua)</span>
                             </label>
-                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600">
-                                <input type="checkbox" name="mode" value="I" class="rounded bg-gray-800 border-gray-500 text-blue-500 focus:ring-blue-500">
+                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
+                                <input type="checkbox" name="mode" value="I" class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500">
                                 <span data-i18n="modeI">I (Impulsata)</span>
                             </label>
-                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600">
-                                <input type="checkbox" name="mode" value="R" class="rounded bg-gray-800 border-gray-500 text-blue-500 focus:ring-blue-500">
+                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
+                                <input type="checkbox" name="mode" value="R" class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500">
                                 <span data-i18n="modeR">R (Gigante)</span>
                             </label>
-                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600">
-                                <input type="checkbox" name="mode" value="M" class="rounded bg-gray-800 border-gray-500 text-blue-500 focus:ring-blue-500">
+                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
+                                <input type="checkbox" name="mode" value="M" class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500">
                                 <span data-i18n="modeM">M (Mode-locked)</span>
                             </label>
                         </div>
@@ -93,8 +101,8 @@
                             <label class="text-sm font-medium text-gray-300" data-i18n="power">Potenza (Per CW)</label>
                         </div>
                         <div class="flex space-x-2">
-                            <input type="number" id="powerVal" step="10" min="10" value="20" class="flex-1 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white text-sm">
-                            <select id="powerUnit" class="w-24 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-blue-500">
+                            <input type="number" id="powerVal" step="10" min="10" value="20" class="flex-1 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                            <select id="powerUnit" class="w-24 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-amber-500">
                                 <option value="mW">mW</option>
                                 <option value="W">W</option>
                             </select>
@@ -107,8 +115,8 @@
                             <label class="text-sm font-medium text-gray-300" data-i18n="energy">Energia (Per Impulsato)</label>
                         </div>
                         <div class="flex space-x-2">
-                            <input type="number" id="energyVal" step="10" min="10" value="10" class="flex-1 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-white text-sm">
-                            <select id="energyUnit" class="w-24 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-blue-500">
+                            <input type="number" id="energyVal" step="10" min="10" value="10" class="flex-1 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                            <select id="energyUnit" class="w-24 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-amber-500">
                                 <option value="mJ">mJ</option>
                                 <option value="J">J</option>
                             </select>
@@ -125,13 +133,16 @@
             <aside class="space-y-4">
                 <div class="bg-gray-800 p-4 md:p-5 rounded-xl shadow-lg border border-gray-700 flex flex-col h-full">
                     <h2 class="text-base font-semibold flex items-center space-x-2 border-b border-gray-700 pb-2 mb-4">
-                        <i data-lucide="calculator" class="w-5 h-5 text-blue-400"></i>
+                        <i data-lucide="calculator" class="w-5 h-5 text-amber-500"></i>
                         <span data-i18n="results">Risultati</span>
                     </h2>
 
                     <div id="resultsContainer" class="flex-1 space-y-3">
                         <!-- Dynamically populated -->
-                        <div class="text-center text-gray-500 py-10" data-i18n="awaiting">In attesa di calcolo...</div>
+                        <div class="text-center text-gray-500 py-10 flex flex-col items-center">
+                            <i data-lucide="activity" class="w-8 h-8 text-gray-600 mb-2"></i>
+                            <span data-i18n="awaiting">In attesa di calcolo...</span>
+                        </div>
                     </div>
                 </div>
             </aside>
@@ -139,12 +150,12 @@
         
         <!-- Actions & Info -->
         <div class="flex flex-col md:flex-row gap-3">
-            <button id="calcBtn" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-colors shadow-lg flex justify-center items-center space-x-2">
+            <button id="calcBtn" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 rounded-xl transition-colors shadow-lg flex justify-center items-center space-x-2">
                 <i data-lucide="zap" class="w-5 h-5"></i>
                 <span data-i18n="calcBtn">Calcola DPI</span>
             </button>
-            <button id="infoBtn" class="flex-1 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white font-semibold py-3 rounded-xl transition-colors shadow-lg flex justify-center items-center space-x-2">
-                <i data-lucide="info" class="w-5 h-5 text-blue-400"></i>
+            <button id="infoBtn" class="flex-1 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white font-semibold py-3 rounded-xl transition-colors shadow-lg flex justify-center items-center space-x-2 group">
+                <i data-lucide="info" class="w-5 h-5 text-amber-500 group-hover:text-amber-400"></i>
                 <span data-i18n="infoBtn">Verifica Conformità DPI</span>
             </button>
         </div>
@@ -152,24 +163,24 @@
     </div>
 
     <!-- Compliance Modal -->
-    <div id="complianceModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+    <div id="complianceModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
         <div class="bg-gray-800 border border-gray-700 rounded-2xl max-w-lg w-full p-6 shadow-2xl transform scale-95 transition-transform duration-300 relative">
-            <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+            <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors">
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
-            <div class="flex items-center space-x-3 mb-4">
-                <i data-lucide="check-circle" class="w-8 h-8 text-green-500"></i>
+            <div class="flex items-center space-x-3 mb-4 border-b border-gray-700 pb-3">
+                <i data-lucide="check-circle" class="w-8 h-8 text-amber-500"></i>
                 <h3 class="text-xl font-bold text-white" data-i18n="modalTitle">Conformità EN 207</h3>
             </div>
-            <div class="space-y-3 text-sm text-gray-300 leading-relaxed">
+            <div class="space-y-4 text-sm text-gray-300 leading-relaxed">
                 <p data-i18n="modalP1"><strong>1. Marcatura CE:</strong> Assicurarsi che i DPI rechino il marchio CE ai sensi del Regolamento (UE) 2016/425 sui dispositivi di protezione individuale.</p>
                 <p data-i18n="modalP2"><strong>2. Certificazione LSO:</strong> Questa calcolatrice fornisce una stima matematica. Le normative europee impongono che la selezione finale sia approvata da un Addetto alla Sicurezza Laser (ASL/LSO) qualificato.</p>
                 <p data-i18n="modalP3"><strong>3. Limiti Danni Reali:</strong> La scala LB tiene conto non solo della densità ottica (OD), ma anche della stabilità del filtro all'irraggiamento prolungato (es. 5 secondi per CW, 50 impulsi per pulsato).</p>
                 <p data-i18n="modalP4"><strong>4. Documentazione:</strong> Richiedere sempre la Dichiarazione di Conformità al fornitore (es. Laservision, Uvex) e verificare che i test siano stati condotti da un ente notificato indipendente.</p>
-                <p data-i18n="modalP5"><strong>5. Tabella di Riferimento (EN):</strong> <a href="https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf" target="_blank" class="text-blue-400 hover:text-blue-300 underline">Consulta le tabelle EN 207 nel Manuale di Sicurezza Laser (PDF istituzionale)</a>.</p>
+                <p data-i18n="modalP5" class="bg-gray-900 p-3 rounded-lg border border-gray-700"><strong>5. Tabella di Riferimento (EN):</strong> <br><a href="https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf" target="_blank" class="text-amber-500 hover:text-amber-400 underline font-medium mt-1 inline-block">Consulta le tabelle EN 207 nel Manuale di Sicurezza Laser (PDF istituzionale)</a>.</p>
             </div>
             <div class="mt-6">
-                <button id="closeModalBtn" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-2.5 rounded-lg transition-colors" data-i18n="close">Chiudi</button>
+                <button id="closeModalBtn" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-xl transition-colors" data-i18n="close">Chiudi</button>
             </div>
         </div>
     </div>
@@ -198,12 +209,14 @@
                 errorVal: "Inserisci valori validi > 0.",
                 area: "Area Fascio:",
                 density: "Densità:",
+                calcInfoTitle: "Metodologia di Calcolo EN 207",
+                calcInfoDesc: "La scala LB è stimata calcolando la <strong>Densità di Potenza/Energia</strong> (W/m² o J/m²) basata sull'area geometrica (A = πr²). L'algoritmo applica una mappatura logaritmica (Base 10) in conformità ai limiti di danno termico derivati dalla norma <strong>EN 207</strong>.",
                 modalTitle: "Verifica Conformità EN 207",
                 modalP1: "<strong>1. Marcatura CE:</strong> Assicurarsi che i DPI rechino il marchio CE ai sensi del Regolamento (UE) 2016/425.",
                 modalP2: "<strong>2. Certificazione LSO:</strong> Questa calcolatrice fornisce una stima. Le normative UE impongono l'approvazione di un Addetto alla Sicurezza Laser (ASL).",
                 modalP3: "<strong>3. Resistenza al Danno:</strong> La scala LB garantisce la stabilità del filtro all'irraggiamento, non solo la densità ottica (OD).",
                 modalP4: "<strong>4. Documentazione:</strong> Richiedere sempre la Dichiarazione di Conformità ai fornitori europei.",
-                modalP5: "<strong>5. Tabella di Riferimento (EN):</strong> <a href='https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf' target='_blank' class='text-blue-400 hover:text-blue-300 underline'>Consulta le tabelle EN 207 nel Manuale di Sicurezza Laser (PDF istituzionale)</a>.",
+                modalP5: "<strong>5. Tabella di Riferimento (EN):</strong> <br><a href='https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf' target='_blank' class='text-amber-500 hover:text-amber-400 underline font-medium mt-1 inline-block'>Consulta le tabelle EN 207 nel Manuale di Sicurezza Laser (PDF istituzionale)</a>.",
                 close: "Chiudi"
             },
             en: {
@@ -227,12 +240,14 @@
                 errorVal: "Enter valid values > 0.",
                 area: "Beam Area:",
                 density: "Density:",
+                calcInfoTitle: "EN 207 Calculation Methodology",
+                calcInfoDesc: "The LB scale is estimated by calculating the <strong>Power/Energy Density</strong> (W/m² or J/m²) based on the geometric area (A = πr²). The algorithm applies a base-10 logarithmic mapping aligned with the thermal damage thresholds derived from the <strong>EN 207</strong> standard.",
                 modalTitle: "EN 207 Compliance Verification",
                 modalP1: "<strong>1. CE Marking:</strong> Ensure PPE bears the CE mark under EU Regulation 2016/425 on personal protective equipment.",
                 modalP2: "<strong>2. LSO Certification:</strong> This provides an estimation. EU regulations require final selection approval by a certified Laser Safety Officer (LSO).",
                 modalP3: "<strong>3. Damage Thresholds:</strong> The LB scale accounts for filter stability under direct hits, not just Optical Density (OD).",
                 modalP4: "<strong>4. Documentation:</strong> Always request the Declaration of Conformity from European suppliers.",
-                modalP5: "<strong>5. Reference Table (EN):</strong> <a href='https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf' target='_blank' class='text-blue-400 hover:text-blue-300 underline'>Consult EN 207 tables in the Institutional Laser Safety Manual (PDF)</a>.",
+                modalP5: "<strong>5. Reference Table (EN):</strong> <br><a href='https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf' target='_blank' class='text-amber-500 hover:text-amber-400 underline font-medium mt-1 inline-block'>Consult EN 207 tables in the Institutional Laser Safety Manual (PDF)</a>.",
                 close: "Close"
             }
         };
@@ -334,11 +349,14 @@
             const areaCm2 = areaM2 * 10000;
 
             let htmlOutput = `
-                <div class="bg-gray-700 p-3 rounded-lg border border-gray-600 mb-3 flex justify-between items-center">
-                    <span class="text-gray-300 text-sm">${dict[currentLang].area}</span>
-                    <span class="text-white font-mono">${areaCm2.toFixed(4)} cm²</span>
+                <div class="bg-gray-700 p-3 rounded-xl border border-gray-600 mb-4 flex justify-between items-center shadow-inner">
+                    <span class="text-gray-300 text-sm flex items-center gap-2">
+                        <i data-lucide="target" class="w-4 h-4 text-amber-500"></i>
+                        ${dict[currentLang].area}
+                    </span>
+                    <span class="text-white font-mono bg-gray-900 px-2 py-1 rounded">${areaCm2.toFixed(4)} cm²</span>
                 </div>
-                <div class="space-y-2">
+                <div class="space-y-3">
             `;
 
             for (const mode of modes) {
@@ -377,12 +395,13 @@
                 let densityUnitStr = isCW ? 'W/m²' : 'J/m²';
                 
                 htmlOutput += `
-                    <div class="bg-blue-900/30 p-3 rounded-lg border border-blue-800/50 flex flex-col">
-                        <div class="flex justify-between items-baseline mb-1">
-                            <span class="text-blue-400 font-bold text-lg">${mode} LB${lbScale}</span>
-                            <span class="text-gray-400 text-xs">@ ${wl} nm</span>
+                    <div class="bg-amber-900/20 p-4 rounded-xl border border-amber-500/30 flex flex-col relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-16 h-16 bg-amber-500/10 rounded-bl-full -z-10"></div>
+                        <div class="flex justify-between items-baseline mb-2">
+                            <span class="text-amber-500 font-bold text-xl drop-shadow-sm">${mode} LB${lbScale}</span>
+                            <span class="text-gray-400 text-xs font-medium px-2 py-1 bg-gray-800 rounded-md">@ ${wl} nm</span>
                         </div>
-                        <div class="flex justify-between items-center mt-1 pt-2 border-t border-blue-800/30">
+                        <div class="flex justify-between items-center mt-1 pt-3 border-t border-amber-500/20">
                             <span class="text-gray-400 text-xs">${dict[currentLang].density}</span>
                             <span class="text-gray-200 text-sm font-mono">${density.toExponential(2)} ${densityUnitStr}</span>
                         </div>
@@ -391,7 +410,20 @@
             }
 
             htmlOutput += `</div>`;
+            
+            // Append methodology info block
+            htmlOutput += `
+                <div class="mt-5 p-4 bg-gray-900/60 rounded-xl border border-gray-700 text-xs text-gray-400 leading-relaxed shadow-inner">
+                    <strong class="text-amber-500 block mb-2 text-sm flex items-center space-x-2">
+                        <i data-lucide="microscope" class="w-4 h-4"></i>
+                        <span>${dict[currentLang].calcInfoTitle}</span>
+                    </strong>
+                    <p>${dict[currentLang].calcInfoDesc}</p>
+                </div>
+            `;
+
             UI.resultsContainer.innerHTML = htmlOutput;
+            lucide.createIcons(); // Re-init icons for dynamically added HTML
         }
 
         function showError(msg) {
