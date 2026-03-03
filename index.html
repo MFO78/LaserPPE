@@ -35,7 +35,7 @@
                 </div>
                 <div>
                     <h1 class="text-xl font-bold text-white" data-i18n="title">Selettore DPI Laser EN 207</h1>
-                    <p class="text-xs text-amber-400" data-i18n="subtitle">Stima scala LB basata su fisica laser</p>
+                    <p class="text-xs text-amber-400" data-i18n="subtitle">Calcolo Parametrico dei Requisiti di Attenuazione Ottica (LB)</p>
                 </div>
             </div>
             <button id="langToggle" class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-sm font-semibold text-gray-200 border border-gray-600">
@@ -67,7 +67,7 @@
                     <div class="grid grid-cols-2 gap-2 items-center">
                         <label class="text-sm font-medium text-gray-300" data-i18n="diameter">Diametro Fascio</label>
                         <div class="relative">
-                            <input type="number" id="diameter" step="0.1" min="0.1" value="1" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                            <input type="number" id="diameter" step="0.1" min="0.1" value="2" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
                             <span class="absolute right-3 top-1.5 text-xs text-gray-400">mm</span>
                         </div>
                     </div>
@@ -190,7 +190,7 @@
         const dict = {
             it: {
                 title: "Selettore DPI Laser EN 207",
-                subtitle: "Stima scala LB basata su fisica laser",
+                subtitle: "Calcolo Parametrico dei Requisiti di Attenuazione Ottica (LB)",
                 params: "Parametri Laser",
                 wavelength: "Lunghezza d'onda (\u03BB)",
                 diameter: "Diametro Fascio (d)",
@@ -221,7 +221,7 @@
             },
             en: {
                 title: "EN 207 Laser PPE Selector",
-                subtitle: "LB scale estimation based on physics",
+                subtitle: "Parametric Calculation of Optical Attenuation Requirements (LB)",
                 params: "Laser Parameters",
                 wavelength: "Wavelength (\u03BB)",
                 diameter: "Beam Diameter (d)",
