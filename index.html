@@ -13,6 +13,10 @@
         ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
         .modal-open { overflow: hidden; }
+        
+        /* Details summary marker removal */
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-4 md:p-6 selection:bg-amber-500 selection:text-white">
@@ -58,72 +62,136 @@
 
                 <div class="space-y-3">
                     <!-- Wavelength -->
-                    <div class="grid grid-cols-2 gap-2 items-center">
-                        <label class="text-sm font-medium text-gray-300" data-i18n="wavelength">Lunghezza d'onda</label>
-                        <div class="relative">
-                            <input type="number" id="wavelength" step="10" min="10" value="1550" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                    <div class="grid grid-cols-12 gap-2 items-center">
+                        <label class="col-span-5 text-sm font-medium text-gray-300" data-i18n="wavelength">Lunghezza d'onda</label>
+                        <div class="col-span-7 relative">
+                            <input type="number" id="wavelength" step="10" min="10" value="1064" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm min-w-0">
                             <span class="absolute right-3 top-1.5 text-xs text-gray-400">nm</span>
                         </div>
                     </div>
 
                     <!-- Diameter -->
-                    <div class="grid grid-cols-2 gap-2 items-center">
-                        <label class="text-sm font-medium text-gray-300" data-i18n="diameter">Diametro Fascio</label>
-                        <div class="relative">
-                            <input type="number" id="diameter" step="0.1" min="0.1" value="2" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                    <div class="grid grid-cols-12 gap-2 items-center">
+                        <label class="col-span-5 text-sm font-medium text-gray-300" data-i18n="diameter">Diametro Fascio</label>
+                        <div class="col-span-7 relative">
+                            <input type="number" id="diameter" step="0.1" min="0.1" value="2" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm min-w-0">
                             <span class="absolute right-3 top-1.5 text-xs text-gray-400">mm</span>
                         </div>
                     </div>
 
-                    <!-- Operation Modes (Multi-select) -->
+                    <!-- Operation Regimes (Multi-select) -->
                     <div class="pt-2 border-t border-gray-700">
-                        <label class="block text-sm font-medium text-gray-300 mb-2" data-i18n="mode">Modalità Operative (Multi-selezione)</label>
-                        <div class="grid grid-cols-2 gap-2 text-sm">
-                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
-                                <input type="checkbox" name="mode" value="D" checked class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500">
-                                <span data-i18n="modeD">D (Continua)</span>
+                        <label class="block text-sm font-medium text-gray-300 mb-2" data-i18n="mode">Regime di Emissione (Multi-selezione)</label>
+                        <div class="grid grid-cols-1 gap-2 text-sm">
+                            <label class="flex items-center space-x-3 bg-gray-700 p-2.5 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
+                                <input type="checkbox" name="mode" value="CW" class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500 w-4 h-4 shrink-0">
+                                <span data-i18n="modeCW" class="font-medium">Onda Continua (CW)</span>
                             </label>
-                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
-                                <input type="checkbox" name="mode" value="I" class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500">
-                                <span data-i18n="modeI">I (Impulsata)</span>
-                            </label>
-                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
-                                <input type="checkbox" name="mode" value="R" class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500">
-                                <span data-i18n="modeR">R (Gigante)</span>
-                            </label>
-                            <label class="flex items-center space-x-2 bg-gray-700 p-2 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
-                                <input type="checkbox" name="mode" value="M" class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500">
-                                <span data-i18n="modeM">M (Mode-locked)</span>
+                            <label class="flex items-center space-x-3 bg-gray-700 p-2.5 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
+                                <input type="checkbox" name="mode" value="PULSED" checked class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500 w-4 h-4 shrink-0">
+                                <span data-i18n="modePulsed" class="font-medium">Impulsata (Pulsed)</span>
                             </label>
                         </div>
                     </div>
 
-                    <!-- Power Input (Shows if D is selected) -->
-                    <div id="powerContainer" class="pt-2 border-t border-gray-700 transition-all duration-300">
+                    <!-- Power Input (Shows if CW is selected) -->
+                    <div id="cwContainer" class="pt-2 border-t border-gray-700 transition-all duration-300 hidden">
                         <div class="flex justify-between mb-1">
-                            <label class="text-sm font-medium text-gray-300" data-i18n="power">Potenza (Per CW)</label>
+                            <label class="text-sm font-medium text-amber-500" data-i18n="cwParams">Parametri CW (Assegnazione: D)</label>
                         </div>
-                        <div class="flex space-x-2">
-                            <input type="number" id="powerVal" step="10" min="10" value="20" class="flex-1 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
-                            <select id="powerUnit" class="w-24 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-amber-500">
-                                <option value="mW">mW</option>
-                                <option value="W">W</option>
-                            </select>
+                        <div class="grid grid-cols-12 gap-2 items-center">
+                            <label class="col-span-5 text-xs text-gray-400" data-i18n="power">Potenza Emessa</label>
+                            <div class="col-span-7 flex space-x-2">
+                                <input type="number" id="cwPowerVal" step="10" min="10" value="20" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                                <select id="cwPowerUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
+                                    <option value="mW">mW</option>
+                                    <option value="W">W</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Energy Input (Shows if I, R, M selected) -->
-                    <div id="energyContainer" class="pt-2 border-t border-gray-700 transition-all duration-300 hidden">
-                        <div class="flex justify-between mb-1">
-                            <label class="text-sm font-medium text-gray-300" data-i18n="energy">Energia (Per Impulsato)</label>
+                    <!-- Pulsed Input (Shows if PULSED selected) -->
+                    <div id="pulsedContainer" class="pt-2 border-t border-gray-700 transition-all duration-300 space-y-3">
+                        <div class="flex justify-between items-center mb-1">
+                            <label class="text-sm font-medium text-amber-500" data-i18n="pulsedParams">Parametri Impulsati</label>
                         </div>
-                        <div class="flex space-x-2">
-                            <input type="number" id="energyVal" step="10" min="10" value="10" class="flex-1 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
-                            <select id="energyUnit" class="w-24 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-amber-500">
-                                <option value="mJ">mJ</option>
-                                <option value="J">J</option>
-                            </select>
+
+                        <!-- Input Method Toggle -->
+                        <div class="bg-gray-900/50 p-1 rounded-lg flex text-xs font-medium border border-gray-700">
+                            <label id="lblDerived" class="flex-1 text-center py-1.5 rounded-md cursor-pointer transition-colors bg-amber-600/20 text-amber-500">
+                                <input type="radio" name="pulseInputMethod" value="derived" class="hidden" checked>
+                                <span data-i18n="methodDerived">Calcolo (P/f/&tau;)</span>
+                            </label>
+                            <label id="lblDirect" class="flex-1 text-center py-1.5 rounded-md cursor-pointer transition-colors text-gray-400 hover:text-gray-200">
+                                <input type="radio" name="pulseInputMethod" value="direct" class="hidden">
+                                <span data-i18n="methodDirect">Diretto (E/Classe)</span>
+                            </label>
                         </div>
+                        
+                        <!-- Auto-derived fields -->
+                        <div id="derivedParams" class="space-y-3 animate-in fade-in slide-in-from-top-2">
+                            <div class="grid grid-cols-12 gap-2 items-center">
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="avgPower">Potenza Media Massima</label>
+                                <div class="col-span-7 flex space-x-2">
+                                    <input type="number" id="pulsePowerVal" step="1" min="1" value="50" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                                    <select id="pulsePowerUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
+                                        <option value="W" selected>W</option>
+                                        <option value="mW">mW</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-12 gap-2 items-center">
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="freq">Frequenza Min. (PRR)</label>
+                                <div class="col-span-7 flex space-x-2">
+                                    <input type="number" id="freqVal" step="1" min="1" value="20" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                                    <select id="freqUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
+                                        <option value="kHz" selected>kHz</option>
+                                        <option value="Hz">Hz</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-12 gap-2 items-center">
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="duration">Durata Impulso (&tau;)</label>
+                                <div class="col-span-7 flex space-x-2">
+                                    <input type="number" id="durVal" step="1" min="0.1" value="100" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                                    <select id="durUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
+                                        <option value="ms">ms</option>
+                                        <option value="us">&mu;s</option>
+                                        <option value="ns" selected>ns</option>
+                                        <option value="ps">ps</option>
+                                        <option value="fs">fs</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Direct manual fields -->
+                        <div id="directParams" class="space-y-3 hidden animate-in fade-in slide-in-from-top-2">
+                            <div class="grid grid-cols-12 gap-2 items-center">
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="pulseEnergy">Energia Impulso</label>
+                                <div class="col-span-7 flex space-x-2">
+                                    <input type="number" id="directEnergyVal" step="0.1" min="0.01" value="2.5" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                                    <select id="directEnergyUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
+                                        <option value="mJ" selected>mJ</option>
+                                        <option value="J">J</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-12 gap-2 items-center">
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="pulseClass">Classe Temporale</label>
+                                <div class="col-span-7">
+                                    <select id="directModeVal" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
+                                        <option value="I">I (Impulsata > 1 µs)</option>
+                                        <option value="R" selected>R (Gigante < 1 µs)</option>
+                                        <option value="M">M (Mode-locked < 1 ns)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
@@ -205,23 +273,29 @@
                 params: "Parametri Laser",
                 wavelength: "Lunghezza d'onda (\u03BB)",
                 diameter: "Diametro Fascio (d)",
-                mode: "Modalità Operative (Multi-selezione)",
-                modeD: "D (Continua CW)",
-                modeI: "I (Impulsata)",
-                modeR: "R (Gigante)",
-                modeM: "M (Mode-locked)",
-                power: "Potenza (Per CW)",
-                energy: "Energia (Per Impulsato)",
+                mode: "Regime di Emissione (Multi-selezione)",
+                modeCW: "Onda Continua (CW)",
+                modePulsed: "Impulsata (Pulsed)",
+                cwParams: "Parametri CW (Assegnazione: D)",
+                pulsedParams: "Parametri Impulsati",
+                methodDerived: "Calcolo (P/f/\u03C4)",
+                methodDirect: "Diretto (E/Classe)",
+                pulseEnergy: "Energia Impulso",
+                pulseClass: "Classe Temporale",
+                power: "Potenza Emessa",
+                avgPower: "Potenza Media Massima",
+                freq: "Frequenza Min. (PRR)",
+                duration: "Durata Impulso (\u03C4)",
                 results: "Risultati Stimati",
                 awaiting: "Compila i parametri e calcola...",
                 calcBtn: "Calcola DPI",
                 infoBtn: "Verifica Conformità DPI",
-                errorCheck: "Seleziona almeno una modalità.",
-                errorVal: "Inserisci valori validi > 0.",
+                errorCheck: "Seleziona almeno un regime di emissione.",
+                errorVal: "Inserisci valori validi > 0 per tutti i campi visibili.",
                 area: "Area Fascio:",
                 density: "Densità:",
-                calcInfoTitle: "Metodologia di Calcolo EN 207",
-                calcInfoDesc: "La scala LB è stimata calcolando la <strong>Densità di Potenza/Energia</strong> (W/m² o J/m²) basata sull'area geometrica (A = πr²). L'algoritmo applica una mappatura logaritmica (Base 10) in conformità ai limiti di danno termico derivati dalla norma <strong>EN 207</strong>.",
+                calcInfoTitle: "Automazione EN 207",
+                calcInfoDesc: "L'algoritmo analizza la Densità Radiante. Nel metodo 'Calcolo', l'energia e la classe temporale (I, R, M) sono derivate matematicamente; nel metodo 'Diretto', vengono processati i dati nominali del costruttore. La scala LB riflette l'attenuazione termica necessaria.",
                 modalTitle: "Verifica Conformità EN 207",
                 modalP1: "<strong>1. Marcatura CE:</strong> Assicurarsi che i DPI rechino il marchio CE ai sensi del Regolamento (UE) 2016/425.",
                 modalP2: "<strong>2. Certificazione LSO:</strong> Questa calcolatrice fornisce una stima. Le normative UE impongono l'approvazione di un Addetto alla Sicurezza Laser (ASL).",
@@ -236,23 +310,29 @@
                 params: "Laser Parameters",
                 wavelength: "Wavelength (\u03BB)",
                 diameter: "Beam Diameter (d)",
-                mode: "Operation Modes (Multi-select)",
-                modeD: "D (Continuous CW)",
-                modeI: "I (Pulsed)",
-                modeR: "R (Giant Pulse)",
-                modeM: "M (Mode-locked)",
-                power: "Power (For CW)",
-                energy: "Energy (For Pulsed)",
+                mode: "Emission Regime (Multi-select)",
+                modeCW: "Continuous Wave (CW)",
+                modePulsed: "Pulsed Emission",
+                cwParams: "CW Parameters (Assigned: D)",
+                pulsedParams: "Pulsed Parameters",
+                methodDerived: "Derived (P/f/\u03C4)",
+                methodDirect: "Direct (E/Class)",
+                pulseEnergy: "Pulse Energy",
+                pulseClass: "Temporal Class",
+                power: "Output Power",
+                avgPower: "Max Average Power",
+                freq: "Min Frequency (PRR)",
+                duration: "Pulse Duration (\u03C4)",
                 results: "Estimated Results",
                 awaiting: "Enter parameters to calculate...",
                 calcBtn: "Calculate PPE",
                 infoBtn: "Verify PPE Compliance",
-                errorCheck: "Select at least one mode.",
-                errorVal: "Enter valid values > 0.",
+                errorCheck: "Select at least one emission regime.",
+                errorVal: "Enter valid values > 0 for all visible fields.",
                 area: "Beam Area:",
                 density: "Density:",
-                calcInfoTitle: "EN 207 Calculation Methodology",
-                calcInfoDesc: "The LB scale is estimated by calculating the <strong>Power/Energy Density</strong> (W/m² or J/m²) based on the geometric area (A = πr²). The algorithm applies a base-10 logarithmic mapping aligned with the thermal damage thresholds derived from the <strong>EN 207</strong> standard.",
+                calcInfoTitle: "EN 207 Automation",
+                calcInfoDesc: "The algorithm analyzes Radiant Density. In the 'Derived' method, energy and temporal class (I, R, M) are computed mathematically; in the 'Direct' method, manufacturer nominal data is processed. The LB scale reflects the required thermal attenuation.",
                 modalTitle: "EN 207 Compliance Verification",
                 modalP1: "<strong>1. CE Marking:</strong> Ensure PPE bears the CE mark under EU Regulation 2016/425 on personal protective equipment.",
                 modalP2: "<strong>2. LSO Certification:</strong> This provides an estimation. EU regulations require final selection approval by a certified Laser Safety Officer (LSO).",
@@ -268,8 +348,13 @@
         // --- DOM Elements ---
         const UI = {
             checkboxes: document.querySelectorAll('input[name="mode"]'),
-            powerContainer: document.getElementById('powerContainer'),
-            energyContainer: document.getElementById('energyContainer'),
+            pulseInputRadios: document.querySelectorAll('input[name="pulseInputMethod"]'),
+            cwContainer: document.getElementById('cwContainer'),
+            pulsedContainer: document.getElementById('pulsedContainer'),
+            derivedParams: document.getElementById('derivedParams'),
+            directParams: document.getElementById('directParams'),
+            lblDerived: document.getElementById('lblDerived'),
+            lblDirect: document.getElementById('lblDirect'),
             btnCalc: document.getElementById('calcBtn'),
             langToggle: document.getElementById('langToggle'),
             langLabel: document.getElementById('langLabel'),
@@ -287,11 +372,26 @@
 
         // --- Event Listeners ---
         UI.checkboxes.forEach(cb => cb.addEventListener('change', toggleInputContainers));
+        
+        UI.pulseInputRadios.forEach(radio => radio.addEventListener('change', (e) => {
+            if(e.target.value === 'derived') {
+                UI.derivedParams.classList.remove('hidden');
+                UI.directParams.classList.add('hidden');
+                UI.lblDerived.className = "flex-1 text-center py-1.5 rounded-md cursor-pointer transition-colors bg-amber-600/20 text-amber-500";
+                UI.lblDirect.className = "flex-1 text-center py-1.5 rounded-md cursor-pointer transition-colors text-gray-400 hover:text-gray-200";
+            } else {
+                UI.derivedParams.classList.add('hidden');
+                UI.directParams.classList.remove('hidden');
+                UI.lblDirect.className = "flex-1 text-center py-1.5 rounded-md cursor-pointer transition-colors bg-amber-600/20 text-amber-500";
+                UI.lblDerived.className = "flex-1 text-center py-1.5 rounded-md cursor-pointer transition-colors text-gray-400 hover:text-gray-200";
+            }
+        }));
+
         UI.langToggle.addEventListener('click', () => {
             currentLang = currentLang === 'it' ? 'en' : 'it';
             UI.langLabel.textContent = currentLang === 'it' ? 'EN' : 'IT';
             updateLanguage(currentLang);
-            if(UI.resultsContainer.innerHTML.includes('LB')) calculatePPE(); // Recalculate to translate results
+            if(UI.resultsContainer.innerHTML.includes('LB')) calculatePPE(); 
         });
         UI.btnCalc.addEventListener('click', calculatePPE);
         
@@ -330,11 +430,11 @@
         function toggleInputContainers() {
             const modes = Array.from(UI.checkboxes).filter(cb => cb.checked).map(cb => cb.value);
             
-            if (modes.includes('D')) UI.powerContainer.classList.remove('hidden');
-            else UI.powerContainer.classList.add('hidden');
+            if (modes.includes('CW')) UI.cwContainer.classList.remove('hidden');
+            else UI.cwContainer.classList.add('hidden');
 
-            if (modes.some(m => ['I', 'R', 'M'].includes(m))) UI.energyContainer.classList.remove('hidden');
-            else UI.energyContainer.classList.add('hidden');
+            if (modes.includes('PULSED')) UI.pulsedContainer.classList.remove('hidden');
+            else UI.pulsedContainer.classList.add('hidden');
         }
 
         function calculatePPE() {
@@ -354,7 +454,6 @@
                 return;
             }
 
-            // Radius in meters -> Area in m^2
             const radiusM = (diam / 1000) / 2;
             const areaM2 = Math.PI * radiusM * radiusM;
             const areaCm2 = areaM2 * 10000;
@@ -370,35 +469,76 @@
                 <div class="space-y-3">
             `;
 
-            for (const mode of modes) {
-                let val, unit, baseVal, density, lbScale = 0;
-                let isCW = mode === 'D';
+            for (const regime of modes) {
+                let density, lbScale = 0, assignedMode = '';
+                let isCW = regime === 'CW';
+                let calcDetails = '';
 
                 if (isCW) {
-                    val = parseFloat(document.getElementById('powerVal').value);
-                    unit = document.getElementById('powerUnit').value;
+                    let val = parseFloat(document.getElementById('cwPowerVal').value);
+                    let unit = document.getElementById('cwPowerUnit').value;
                     if(!val || val <= 0) { showError(dict[currentLang].errorVal); return; }
-                    baseVal = unit === 'mW' ? val / 1000 : val; // Convert to Watts
-                    density = baseVal / areaM2; // W/m^2
+                    let powerW = unit === 'mW' ? val / 1000 : val;
+                    density = powerW / areaM2; // W/m^2
+                    assignedMode = 'D';
                 } else {
-                    val = parseFloat(document.getElementById('energyVal').value);
-                    unit = document.getElementById('energyUnit').value;
-                    if(!val || val <= 0) { showError(dict[currentLang].errorVal); return; }
-                    baseVal = unit === 'mJ' ? val / 1000 : val; // Convert to Joules
-                    density = baseVal / areaM2; // J/m^2
+                    const pulseMethod = document.querySelector('input[name="pulseInputMethod"]:checked').value;
+                    
+                    if (pulseMethod === 'derived') {
+                        // Logic: Calculate Energy & Determine Mode (I, R, M)
+                        let pVal = parseFloat(document.getElementById('pulsePowerVal').value);
+                        let pUnit = document.getElementById('pulsePowerUnit').value;
+                        let fVal = parseFloat(document.getElementById('freqVal').value);
+                        let fUnit = document.getElementById('freqUnit').value;
+                        let dVal = parseFloat(document.getElementById('durVal').value);
+                        let dUnit = document.getElementById('durUnit').value;
+
+                        if(!pVal || !fVal || !dVal || pVal <= 0 || fVal <= 0 || dVal <= 0) { showError(dict[currentLang].errorVal); return; }
+
+                        let powerW = pUnit === 'mW' ? pVal / 1000 : pVal;
+                        let freqHz = fUnit === 'kHz' ? fVal * 1000 : fVal;
+                        
+                        let durSec = dVal;
+                        if (dUnit === 'ms') durSec *= 1e-3;
+                        if (dUnit === 'us') durSec *= 1e-6;
+                        if (dUnit === 'ns') durSec *= 1e-9;
+                        if (dUnit === 'ps') durSec *= 1e-12;
+                        if (dUnit === 'fs') durSec *= 1e-15;
+
+                        let energyJ = powerW / freqHz;
+                        density = energyJ / areaM2; // J/m^2
+                        calcDetails = `<span class="text-amber-400 font-mono block mt-1">E<sub>pulse</sub> = ${(energyJ * 1000).toFixed(4)} mJ</span>`;
+
+                        if (durSec < 1e-9) assignedMode = 'M';
+                        else if (durSec < 1e-6) assignedMode = 'R';
+                        else if (durSec <= 0.25) assignedMode = 'I';
+                        else assignedMode = 'D';
+
+                    } else {
+                        // Logic: Direct Energy and Manual Class Selection
+                        let eVal = parseFloat(document.getElementById('directEnergyVal').value);
+                        let eUnit = document.getElementById('directEnergyUnit').value;
+                        assignedMode = document.getElementById('directModeVal').value;
+
+                        if(!eVal || eVal <= 0) { showError(dict[currentLang].errorVal); return; }
+
+                        let energyJ = eUnit === 'mJ' ? eVal / 1000 : eVal;
+                        density = energyJ / areaM2; // J/m^2
+                        calcDetails = `<span class="text-amber-400 font-mono block mt-1">E<sub>pulse</sub> = ${(energyJ * 1000).toFixed(4)} mJ (Dir)</span>`;
+                    }
                 }
 
                 // Simplified EN 207 mapping
                 if (wl >= 315 && wl <= 1400) {
-                    if (mode === 'D') lbScale = Math.ceil(Math.log10(density));
-                    else if (mode === 'I') lbScale = Math.ceil(Math.log10(density) + 1);
-                    else if (mode === 'R') lbScale = Math.ceil(Math.log10(density) + 2);
-                    else if (mode === 'M') lbScale = Math.ceil(Math.log10(density) + 4);
+                    if (assignedMode === 'D') lbScale = Math.ceil(Math.log10(density));
+                    else if (assignedMode === 'I') lbScale = Math.ceil(Math.log10(density) + 1);
+                    else if (assignedMode === 'R') lbScale = Math.ceil(Math.log10(density) + 2);
+                    else if (assignedMode === 'M') lbScale = Math.ceil(Math.log10(density) + 4);
                 } else if (wl > 1400 && wl <= 10600) {
-                    if (mode === 'D') lbScale = Math.ceil(Math.log10(density) - 1);
+                    if (assignedMode === 'D') lbScale = Math.ceil(Math.log10(density) - 1);
                     else lbScale = Math.ceil(Math.log10(density));
                 } else {
-                    lbScale = Math.ceil(Math.log10(density) + 1); // Generic conservative fallback
+                    lbScale = Math.ceil(Math.log10(density) + 1); // Generic fallback
                 }
 
                 lbScale = Math.max(1, Math.min(10, lbScale)); // Clamp 1-10
@@ -409,11 +549,14 @@
                     <div class="bg-amber-900/20 p-4 rounded-xl border border-amber-500/30 flex flex-col relative overflow-hidden">
                         <div class="absolute right-0 top-0 w-16 h-16 bg-amber-500/10 rounded-bl-full -z-10"></div>
                         <div class="flex justify-between items-baseline mb-2">
-                            <span class="text-amber-500 font-bold text-xl drop-shadow-sm">${mode} LB${lbScale}</span>
+                            <span class="text-amber-500 font-bold text-xl drop-shadow-sm">${assignedMode} LB${lbScale}</span>
                             <span class="text-gray-400 text-xs font-medium px-2 py-1 bg-gray-800 rounded-md">@ ${wl} nm</span>
                         </div>
                         <div class="flex justify-between items-center mt-1 pt-3 border-t border-amber-500/20">
-                            <span class="text-gray-400 text-xs">${dict[currentLang].density}</span>
+                            <div class="flex flex-col">
+                                <span class="text-gray-400 text-xs">${dict[currentLang].density}</span>
+                                ${calcDetails}
+                            </div>
                             <span class="text-gray-200 text-sm font-mono">${density.toExponential(2)} ${densityUnitStr}</span>
                         </div>
                     </div>
@@ -434,7 +577,7 @@
             `;
 
             UI.resultsContainer.innerHTML = htmlOutput;
-            lucide.createIcons(); // Re-init icons for dynamically added HTML
+            lucide.createIcons();
         }
 
         function showError(msg) {
