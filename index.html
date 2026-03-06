@@ -1,33 +1,29 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EN 207 Laser PPE Selector</title>
+    <title>EN 207 / EN 208 Laser PPE Selector</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
-        /* Custom scrollbar for dark theme */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #1f2937; }
         ::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: #6b7280; }
         .modal-open { overflow: hidden; }
-        
-        /* Details summary marker removal */
         details > summary { list-style: none; }
         details > summary::-webkit-details-marker { display: none; }
     </style>
 </head>
 <body class="bg-gray-900 text-gray-100 font-sans min-h-screen p-4 md:p-6 selection:bg-amber-500 selection:text-white">
 
-    <div class="max-w-4xl mx-auto space-y-4">
+    <div class="max-w-4xl mx-auto space-y-4 flex flex-col min-h-[calc(100vh-3rem)]">
         
         <!-- Header -->
         <header class="flex justify-between items-start md:items-center bg-gray-800 p-4 rounded-xl shadow-lg border border-gray-700">
             <div class="flex items-center space-x-4">
                 <div class="p-2 bg-amber-900/40 rounded-xl border border-amber-500/30">
-                    <!-- Custom Laser Warning SVG -->
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 87" class="w-10 h-10">
                         <path d="M50 5 L95 83 L5 83 Z" fill="#F59E0B" stroke="#F59E0B" stroke-width="4" stroke-linejoin="round"/>
                         <path d="M50 12 L87 78 L13 78 Z" fill="#111827"/>
@@ -38,101 +34,99 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold text-white" data-i18n="title">Selettore DPI Laser EN 207</h1>
-                    <p class="text-xs text-amber-400" data-i18n="subtitle">Calcolo Parametrico dei Requisiti di Attenuazione Ottica (LB)</p>
+                    <h1 class="text-xl font-bold text-white" data-i18n="title">EN 207 / 208 Laser PPE Selector</h1>
+                    <p class="text-xs text-amber-400" data-i18n="subtitle">Parametric Calculation of Optical Attenuation (LB/R)</p>
                 </div>
             </div>
             <div class="flex flex-col items-end gap-2">
                 <span class="text-[10px] md:text-xs font-bold text-gray-500 tracking-widest uppercase select-none">AF Engineering Tools</span>
                 <button id="langToggle" class="flex items-center space-x-2 px-3 py-1.5 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors text-sm font-semibold text-gray-200 border border-gray-600">
                     <i data-lucide="languages" class="w-4 h-4 text-amber-500"></i>
-                    <span id="langLabel">EN</span>
+                    <span id="langLabel">IT</span>
                 </button>
             </div>
         </header>
 
-        <div class="grid md:grid-cols-2 gap-4">
+        <div class="grid md:grid-cols-2 gap-4 flex-grow">
             
             <!-- Input Panel -->
             <main class="bg-gray-800 p-4 md:p-5 rounded-xl shadow-lg border border-gray-700 space-y-4">
                 <h2 class="text-base font-semibold flex items-center space-x-2 border-b border-gray-700 pb-2">
                     <i data-lucide="sliders" class="w-5 h-5 text-amber-500"></i>
-                    <span data-i18n="params">Parametri Laser</span>
+                    <span data-i18n="params">Laser Parameters</span>
                 </h2>
 
                 <div class="space-y-3">
                     <!-- Wavelength -->
                     <div class="grid grid-cols-12 gap-2 items-center">
-                        <label class="col-span-5 text-sm font-medium text-gray-300" data-i18n="wavelength">Lunghezza d'onda</label>
+                        <label class="col-span-5 text-sm font-medium text-gray-300" data-i18n="wavelength">Wavelength (λ)</label>
                         <div class="col-span-7 relative">
-                            <input type="number" id="wavelength" step="10" min="10" value="1064" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm min-w-0">
+                            <input type="number" id="wavelength" step="1" min="180" value="633" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm min-w-0">
                             <span class="absolute right-3 top-1.5 text-xs text-gray-400">nm</span>
                         </div>
                     </div>
 
                     <!-- Diameter -->
                     <div class="grid grid-cols-12 gap-2 items-center">
-                        <label class="col-span-5 text-sm font-medium text-gray-300" data-i18n="diameter">Diametro Fascio</label>
+                        <label class="col-span-5 text-sm font-medium text-gray-300" data-i18n="diameter">Beam Diameter (d)</label>
                         <div class="col-span-7 relative">
                             <input type="number" id="diameter" step="0.1" min="0.1" value="2" class="w-full pl-3 pr-10 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm min-w-0">
                             <span class="absolute right-3 top-1.5 text-xs text-gray-400">mm</span>
                         </div>
                     </div>
 
-                    <!-- Operation Regimes (Multi-select) -->
+                    <!-- Operation Regimes -->
                     <div class="pt-2 border-t border-gray-700">
-                        <label class="block text-sm font-medium text-gray-300 mb-2" data-i18n="mode">Regime di Emissione (Multi-selezione)</label>
+                        <label class="block text-sm font-medium text-gray-300 mb-2" data-i18n="mode">Emission Regime (Multi-select)</label>
                         <div class="grid grid-cols-1 gap-2 text-sm">
                             <label class="flex items-center space-x-3 bg-gray-700 p-2.5 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
-                                <input type="checkbox" name="mode" value="CW" class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500 w-4 h-4 shrink-0">
-                                <span data-i18n="modeCW" class="font-medium">Onda Continua (CW)</span>
+                                <input type="checkbox" name="mode" value="CW" checked class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500 w-4 h-4 shrink-0">
+                                <span data-i18n="modeCW" class="font-medium">Continuous Wave (CW)</span>
                             </label>
                             <label class="flex items-center space-x-3 bg-gray-700 p-2.5 rounded-lg cursor-pointer hover:bg-gray-600 border border-gray-600 hover:border-amber-500/50 transition-colors">
-                                <input type="checkbox" name="mode" value="PULSED" checked class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500 w-4 h-4 shrink-0">
-                                <span data-i18n="modePulsed" class="font-medium">Impulsata (Pulsed)</span>
+                                <input type="checkbox" name="mode" value="PULSED" class="rounded bg-gray-800 border-gray-500 text-amber-500 focus:ring-amber-500 w-4 h-4 shrink-0">
+                                <span data-i18n="modePulsed" class="font-medium">Pulsed Emission</span>
                             </label>
                         </div>
                     </div>
 
-                    <!-- Power Input (Shows if CW is selected) -->
-                    <div id="cwContainer" class="pt-2 border-t border-gray-700 transition-all duration-300 hidden">
+                    <!-- CW Params -->
+                    <div id="cwContainer" class="pt-2 border-t border-gray-700 transition-all duration-300">
                         <div class="flex justify-between mb-1">
-                            <label class="text-sm font-medium text-amber-500" data-i18n="cwParams">Parametri CW (Assegnazione: D)</label>
+                            <label class="text-sm font-medium text-amber-500" data-i18n="cwParams">CW Parameters (Assigned: D)</label>
                         </div>
                         <div class="grid grid-cols-12 gap-2 items-center">
-                            <label class="col-span-5 text-xs text-gray-400" data-i18n="power">Potenza Emessa</label>
+                            <label class="col-span-5 text-xs text-gray-400" data-i18n="power">Output Power</label>
                             <div class="col-span-7 flex space-x-2">
-                                <input type="number" id="cwPowerVal" step="10" min="10" value="20" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
+                                <input type="number" id="cwPowerVal" step="1" min="1" value="20" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
                                 <select id="cwPowerUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
-                                    <option value="mW">mW</option>
+                                    <option value="mW" selected>mW</option>
                                     <option value="W">W</option>
                                 </select>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Pulsed Input (Shows if PULSED selected) -->
-                    <div id="pulsedContainer" class="pt-2 border-t border-gray-700 transition-all duration-300 space-y-3">
+                    <!-- Pulsed Params -->
+                    <div id="pulsedContainer" class="pt-2 border-t border-gray-700 transition-all duration-300 space-y-3 hidden">
                         <div class="flex justify-between items-center mb-1">
-                            <label class="text-sm font-medium text-amber-500" data-i18n="pulsedParams">Parametri Impulsati</label>
+                            <label class="text-sm font-medium text-amber-500" data-i18n="pulsedParams">Pulsed Parameters</label>
                         </div>
 
-                        <!-- Input Method Toggle -->
                         <div class="bg-gray-900/50 p-1 rounded-lg flex text-xs font-medium border border-gray-700">
                             <label id="lblDerived" class="flex-1 text-center py-1.5 rounded-md cursor-pointer transition-colors bg-amber-600/20 text-amber-500">
                                 <input type="radio" name="pulseInputMethod" value="derived" class="hidden" checked>
-                                <span data-i18n="methodDerived">Calcolo (P/f/&tau;)</span>
+                                <span data-i18n="methodDerived">Derived (P/f/τ)</span>
                             </label>
                             <label id="lblDirect" class="flex-1 text-center py-1.5 rounded-md cursor-pointer transition-colors text-gray-400 hover:text-gray-200">
                                 <input type="radio" name="pulseInputMethod" value="direct" class="hidden">
-                                <span data-i18n="methodDirect">Diretto (E/Classe)</span>
+                                <span data-i18n="methodDirect">Direct (E/Class)</span>
                             </label>
                         </div>
                         
-                        <!-- Auto-derived fields -->
                         <div id="derivedParams" class="space-y-3 animate-in fade-in slide-in-from-top-2">
                             <div class="grid grid-cols-12 gap-2 items-center">
-                                <label class="col-span-5 text-xs text-gray-400" data-i18n="avgPower">Potenza Media Massima</label>
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="avgPower">Max Average Power</label>
                                 <div class="col-span-7 flex space-x-2">
                                     <input type="number" id="pulsePowerVal" step="1" min="1" value="50" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
                                     <select id="pulsePowerUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
@@ -141,9 +135,8 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="grid grid-cols-12 gap-2 items-center">
-                                <label class="col-span-5 text-xs text-gray-400" data-i18n="freq">Frequenza Min. (PRR)</label>
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="freq">Min Frequency (PRR)</label>
                                 <div class="col-span-7 flex space-x-2">
                                     <input type="number" id="freqVal" step="1" min="1" value="20" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
                                     <select id="freqUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
@@ -152,14 +145,13 @@
                                     </select>
                                 </div>
                             </div>
-
                             <div class="grid grid-cols-12 gap-2 items-center">
-                                <label class="col-span-5 text-xs text-gray-400" data-i18n="duration">Durata Impulso (&tau;)</label>
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="duration">Pulse Duration (τ)</label>
                                 <div class="col-span-7 flex space-x-2">
                                     <input type="number" id="durVal" step="1" min="0.1" value="100" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
                                     <select id="durUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
                                         <option value="ms">ms</option>
-                                        <option value="us">&mu;s</option>
+                                        <option value="us">μs</option>
                                         <option value="ns" selected>ns</option>
                                         <option value="ps">ps</option>
                                         <option value="fs">fs</option>
@@ -168,10 +160,9 @@
                             </div>
                         </div>
 
-                        <!-- Direct manual fields -->
                         <div id="directParams" class="space-y-3 hidden animate-in fade-in slide-in-from-top-2">
                             <div class="grid grid-cols-12 gap-2 items-center">
-                                <label class="col-span-5 text-xs text-gray-400" data-i18n="pulseEnergy">Energia Impulso</label>
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="pulseEnergy">Pulse Energy</label>
                                 <div class="col-span-7 flex space-x-2">
                                     <input type="number" id="directEnergyVal" step="0.1" min="0.01" value="2.5" class="flex-1 min-w-0 pl-3 py-1.5 bg-gray-700 border border-gray-600 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-amber-500 text-white text-sm">
                                     <select id="directEnergyUnit" class="w-24 shrink-0 bg-gray-700 border border-gray-600 rounded-lg text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
@@ -181,12 +172,12 @@
                                 </div>
                             </div>
                             <div class="grid grid-cols-12 gap-2 items-center">
-                                <label class="col-span-5 text-xs text-gray-400" data-i18n="pulseClass">Classe Temporale</label>
+                                <label class="col-span-5 text-xs text-gray-400" data-i18n="pulseClass">Temporal Class</label>
                                 <div class="col-span-7">
                                     <select id="directModeVal" class="w-full bg-gray-700 border border-gray-600 rounded-lg px-3 py-1.5 text-sm text-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 cursor-pointer">
-                                        <option value="I">I (Impulsata > 1 µs)</option>
-                                        <option value="R" selected>R (Gigante < 1 µs)</option>
-                                        <option value="M">M (Mode-locked < 1 ns)</option>
+                                        <option value="I">I (10⁻⁷ to 0.25 s)</option>
+                                        <option value="R" selected>R (10⁻⁹ to 10⁻⁷ s)</option>
+                                        <option value="M">M (< 10⁻⁹ s)</option>
                                     </select>
                                 </div>
                             </div>
@@ -194,49 +185,43 @@
 
                     </div>
                 </div>
-
-                <!-- Error Msg -->
-                <p id="errorMsg" class="text-red-400 text-xs hidden"></p>
-
+                <p id="errorMsg" class="text-red-400 text-xs font-bold hidden"></p>
             </main>
 
             <!-- Results Panel -->
-            <aside class="space-y-4">
-                <div class="bg-gray-800 p-4 md:p-5 rounded-xl shadow-lg border border-gray-700 flex flex-col h-full">
+            <aside class="space-y-4 flex flex-col">
+                <div class="bg-gray-800 p-4 md:p-5 rounded-xl shadow-lg border border-gray-700 flex flex-col flex-grow">
                     <h2 class="text-base font-semibold flex items-center space-x-2 border-b border-gray-700 pb-2 mb-4">
                         <i data-lucide="calculator" class="w-5 h-5 text-amber-500"></i>
-                        <span data-i18n="results">Risultati</span>
+                        <span data-i18n="results">Estimated Results</span>
                     </h2>
 
                     <div id="resultsContainer" class="flex-1 space-y-3">
-                        <!-- Dynamically populated -->
                         <div class="text-center text-gray-500 py-10 flex flex-col items-center">
                             <i data-lucide="activity" class="w-8 h-8 text-gray-600 mb-2"></i>
-                            <span data-i18n="awaiting">In attesa di calcolo...</span>
+                            <span data-i18n="awaiting">Enter parameters to calculate...</span>
                         </div>
                     </div>
                 </div>
             </aside>
         </div>
         
-        <!-- Actions & Info -->
         <div class="flex flex-col md:flex-row gap-3">
             <button id="calcBtn" class="flex-1 bg-amber-600 hover:bg-amber-700 text-white font-semibold py-3 rounded-xl transition-colors shadow-lg flex justify-center items-center space-x-2">
                 <i data-lucide="zap" class="w-5 h-5"></i>
-                <span data-i18n="calcBtn">Calcola DPI</span>
+                <span data-i18n="calcBtn">Calculate PPE</span>
             </button>
             <button id="infoBtn" class="flex-1 bg-gray-700 hover:bg-gray-600 border border-gray-600 text-white font-semibold py-3 rounded-xl transition-colors shadow-lg flex justify-center items-center space-x-2 group">
                 <i data-lucide="info" class="w-5 h-5 text-amber-500 group-hover:text-amber-400"></i>
-                <span data-i18n="infoBtn">Verifica Conformità DPI</span>
+                <span data-i18n="infoBtn">Verify PPE Compliance</span>
             </button>
         </div>
 
-        <!-- Footer Reference -->
-        <footer class="text-center pt-2 pb-4">
-            <a href="https://mfo78.github.io/LaserPPE/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-mono text-gray-500 hover:text-amber-500 transition-colors">
-                <i data-lucide="external-link" class="w-3 h-3"></i>
-                https://mfo78.github.io/LaserPPE/
-            </a>
+        <!-- Persistent Legal Disclaimer -->
+        <footer class="mt-4 p-4 bg-gray-900 border border-gray-700 rounded-xl shadow-inner text-[11px] text-gray-400 leading-relaxed">
+            <p data-i18n="legalDisclaimer">
+                <!-- Translated text injected here -->
+            </p>
         </footer>
 
     </div>
@@ -248,18 +233,20 @@
                 <i data-lucide="x" class="w-6 h-6"></i>
             </button>
             <div class="flex items-center space-x-3 mb-4 border-b border-gray-700 pb-3">
-                <i data-lucide="check-circle" class="w-8 h-8 text-amber-500"></i>
-                <h3 class="text-xl font-bold text-white" data-i18n="modalTitle">Conformità EN 207</h3>
+                <i data-lucide="shield-check" class="w-8 h-8 text-amber-500"></i>
+                <h3 class="text-xl font-bold text-white" data-i18n="modalTitle">EN 207 / 208 Compliance</h3>
             </div>
             <div class="space-y-4 text-sm text-gray-300 leading-relaxed">
-                <p data-i18n="modalP1"><strong>1. Marcatura CE:</strong> Assicurarsi che i DPI rechino il marchio CE ai sensi del Regolamento (UE) 2016/425 sui dispositivi di protezione individuale.</p>
-                <p data-i18n="modalP2"><strong>2. Certificazione LSO:</strong> Questa calcolatrice fornisce una stima matematica. Le normative europee impongono che la selezione finale sia approvata da un Addetto alla Sicurezza Laser (ASL/LSO) qualificato.</p>
-                <p data-i18n="modalP3"><strong>3. Limiti Danni Reali:</strong> La scala LB tiene conto non solo della densità ottica (OD), ma anche della stabilità del filtro all'irraggiamento prolungato (es. 5 secondi per CW, 50 impulsi per pulsato).</p>
-                <p data-i18n="modalP4"><strong>4. Documentazione:</strong> Richiedere sempre la Dichiarazione di Conformità al fornitore (es. Laservision, Uvex) e verificare che i test siano stati condotti da un ente notificato indipendente.</p>
-                <p data-i18n="modalP5" class="bg-gray-900 p-3 rounded-lg border border-gray-700"><strong>5. Tabella di Riferimento (EN):</strong> <br><a href="https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf" target="_blank" class="text-amber-500 hover:text-amber-400 underline font-medium mt-1 inline-block">Consulta le tabelle EN 207 nel Manuale di Sicurezza Laser (PDF istituzionale)</a>.</p>
+                <p data-i18n="modalP1"><strong>1. CE Marking:</strong> Ensure PPE bears the CE mark under EU Regulation 2016/425 on personal protective equipment.</p>
+                <p data-i18n="modalP2"><strong>2. LSO Certification:</strong> This tool maps exactly to standard EN207 Table 9-5. Final selection must be ratified by a certified Laser Safety Officer (LSO) per Directive 2006/25/EC.</p>
+                <p data-i18n="modalP3"><strong>3. Thermal Correction:</strong> The algorithm correctly applies thermal thresholds for high PRR, ensuring the resultant LB reflects both peak energy and average power demands.</p>
+                <p data-i18n="modalP4"><strong>4. EN 208 Limit:</strong> Alignment ratings (R) are valid solely for the visible spectrum (400-700 nm).</p>
+                <p data-i18n="modalP5" class="bg-gray-900 p-3 rounded-lg border border-gray-700 border-opacity-50 mt-4">
+                    <!-- Link injected via i18n -->
+                </p>
             </div>
             <div class="mt-6">
-                <button id="closeModalBtn" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-xl transition-colors" data-i18n="close">Chiudi</button>
+                <button id="closeModalBtn" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-semibold py-3 rounded-xl transition-colors" data-i18n="close">Close</button>
             </div>
         </div>
     </div>
@@ -267,83 +254,87 @@
     <script>
         // --- Translations ---
         const dict = {
-            it: {
-                title: "Selettore DPI Laser EN 207",
-                subtitle: "Calcolo Parametrico dei Requisiti di Attenuazione Ottica (LB)",
-                params: "Parametri Laser",
-                wavelength: "Lunghezza d'onda (\u03BB)",
-                diameter: "Diametro Fascio (d)",
-                mode: "Regime di Emissione (Multi-selezione)",
-                modeCW: "Onda Continua (CW)",
-                modePulsed: "Impulsata (Pulsed)",
-                cwParams: "Parametri CW (Assegnazione: D)",
-                pulsedParams: "Parametri Impulsati",
-                methodDerived: "Calcolo (P/f/\u03C4)",
-                methodDirect: "Diretto (E/Classe)",
-                pulseEnergy: "Energia Impulso",
-                pulseClass: "Classe Temporale",
-                power: "Potenza Emessa",
-                avgPower: "Potenza Media Massima",
-                freq: "Frequenza Min. (PRR)",
-                duration: "Durata Impulso (\u03C4)",
-                results: "Risultati Stimati",
-                awaiting: "Compila i parametri e calcola...",
-                calcBtn: "Calcola DPI",
-                infoBtn: "Verifica Conformità DPI",
-                errorCheck: "Seleziona almeno un regime di emissione.",
-                errorVal: "Inserisci valori validi > 0 per tutti i campi visibili.",
-                area: "Area Fascio:",
-                density: "Densità:",
-                calcInfoTitle: "Automazione EN 207",
-                calcInfoDesc: "L'algoritmo analizza la Densità Radiante. Nel metodo 'Calcolo', l'energia e la classe temporale (I, R, M) sono derivate matematicamente; nel metodo 'Diretto', vengono processati i dati nominali del costruttore. La scala LB riflette l'attenuazione termica necessaria.",
-                modalTitle: "Verifica Conformità EN 207",
-                modalP1: "<strong>1. Marcatura CE:</strong> Assicurarsi che i DPI rechino il marchio CE ai sensi del Regolamento (UE) 2016/425.",
-                modalP2: "<strong>2. Certificazione LSO:</strong> Questa calcolatrice fornisce una stima. Le normative UE impongono l'approvazione di un Addetto alla Sicurezza Laser (ASL).",
-                modalP3: "<strong>3. Resistenza al Danno:</strong> La scala LB garantisce la stabilità del filtro all'irraggiamento, non solo la densità ottica (OD).",
-                modalP4: "<strong>4. Documentazione:</strong> Richiedere sempre la Dichiarazione di Conformità ai fornitori europei.",
-                modalP5: "<strong>5. Tabella di Riferimento (EN):</strong> <br><a href='https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf' target='_blank' class='text-amber-500 hover:text-amber-400 underline font-medium mt-1 inline-block'>Consulta le tabelle EN 207 nel Manuale di Sicurezza Laser (PDF istituzionale)</a>.",
-                close: "Chiudi"
-            },
             en: {
-                title: "EN 207 Laser PPE Selector",
-                subtitle: "Parametric Calculation of Optical Attenuation Requirements (LB)",
+                title: "EN 207 / 208 Laser PPE Selector",
+                subtitle: "Parametric Calculation of Optical Attenuation (LB/R)",
                 params: "Laser Parameters",
-                wavelength: "Wavelength (\u03BB)",
+                wavelength: "Wavelength (λ)",
                 diameter: "Beam Diameter (d)",
                 mode: "Emission Regime (Multi-select)",
                 modeCW: "Continuous Wave (CW)",
                 modePulsed: "Pulsed Emission",
                 cwParams: "CW Parameters (Assigned: D)",
                 pulsedParams: "Pulsed Parameters",
-                methodDerived: "Derived (P/f/\u03C4)",
+                methodDerived: "Derived (P/f/τ)",
                 methodDirect: "Direct (E/Class)",
                 pulseEnergy: "Pulse Energy",
                 pulseClass: "Temporal Class",
                 power: "Output Power",
                 avgPower: "Max Average Power",
                 freq: "Min Frequency (PRR)",
-                duration: "Pulse Duration (\u03C4)",
+                duration: "Pulse Duration (τ)",
                 results: "Estimated Results",
                 awaiting: "Enter parameters to calculate...",
                 calcBtn: "Calculate PPE",
                 infoBtn: "Verify PPE Compliance",
                 errorCheck: "Select at least one emission regime.",
-                errorVal: "Enter valid values > 0 for all visible fields.",
+                errorVal: "Enter valid values > 0. Wavelength must be ≥ 180 nm.",
+                errorBounds: "Wavelength out of implemented LUT bounds.",
                 area: "Beam Area:",
                 density: "Density:",
-                calcInfoTitle: "EN 207 Automation",
-                calcInfoDesc: "The algorithm analyzes Radiant Density. In the 'Derived' method, energy and temporal class (I, R, M) are computed mathematically; in the 'Direct' method, manufacturer nominal data is processed. The LB scale reflects the required thermal attenuation.",
-                modalTitle: "EN 207 Compliance Verification",
-                modalP1: "<strong>1. CE Marking:</strong> Ensure PPE bears the CE mark under EU Regulation 2016/425 on personal protective equipment.",
-                modalP2: "<strong>2. LSO Certification:</strong> This provides an estimation. EU regulations require final selection approval by a certified Laser Safety Officer (LSO).",
-                modalP3: "<strong>3. Damage Thresholds:</strong> The LB scale accounts for filter stability under direct hits, not just Optical Density (OD).",
-                modalP4: "<strong>4. Documentation:</strong> Always request the Declaration of Conformity from European suppliers.",
-                modalP5: "<strong>5. Reference Table (EN):</strong> <br><a href='https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf' target='_blank' class='text-amber-500 hover:text-amber-400 underline font-medium mt-1 inline-block'>Consult EN 207 tables in the Institutional Laser Safety Manual (PDF)</a>.",
-                close: "Close"
+                calcInfoTitle: "EN 207 Standard Adherence",
+                calcInfoDesc: "Calculations utilize explicitly verified baseline limits from EN207 Table 9-5. It accurately branches into Power Density (W/m²) or Energy Density (J/m²) dynamically based on temporal class and wavelength band criteria.",
+                modalTitle: "EN 207 / 208 Compliance Verification",
+                modalP1: "<strong>1. CE Marking:</strong> Ensure PPE bears the CE mark under EU Regulation 2016/425.",
+                modalP2: "<strong>2. LSO Certification:</strong> This tool maps to EN207 Table 9-5 limits. Final selection must be ratified by an official Laser Safety Officer (LSO) per Directive 2006/25/EC.",
+                modalP3: "<strong>3. Thermal Correction:</strong> The algorithm accurately derives high PRR thresholds, testing average power against CW baselines.",
+                modalP4: "<strong>4. EN 208 Specification:</strong> Alignment scaling (R1-R5) is strictly restricted to visible wavelengths (400–700 nm).",
+                modalP5: "<strong>5. Reference Tables:</strong> <br><a href='https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf' target='_blank' class='text-amber-500 hover:text-amber-400 underline font-medium mt-1 inline-block'>Consult EN 207 Table 9-5 in the UCC Laser Safety Guidelines (PDF)</a>.",
+                close: "Close",
+                legalDisclaimer: "<strong class='text-gray-300'>Legal Disclaimer:</strong> This application provides theoretical estimations based on EN 207/208 parameters and is strictly for preliminary evaluation. It does not replace a formal safety assessment. Final PPE selection must be ratified by a certified <strong>Laser Safety Officer (LSO)</strong> in accordance with workplace exposure assessments mandated by <strong>Directive 2006/25/EC</strong>, using <strong>CE marked</strong> equipment compliant with <strong>Regulation (EU) 2016/425</strong>. Use of this tool is at your own risk; the developer accepts no liability for direct or indirect damages, injuries, or compliance failures. The underlying algorithmic implementations are protected intellectual property."
+            },
+            it: {
+                title: "Selettore DPI Laser EN 207 / 208",
+                subtitle: "Calcolo Parametrico dei Requisiti di Attenuazione (LB/R)",
+                params: "Parametri Laser",
+                wavelength: "Lunghezza d'onda (λ)",
+                diameter: "Diametro Fascio (d)",
+                mode: "Regime di Emissione (Multi-selezione)",
+                modeCW: "Onda Continua (CW)",
+                modePulsed: "Impulsata (Pulsed)",
+                cwParams: "Parametri CW (Assegnazione: D)",
+                pulsedParams: "Parametri Impulsati",
+                methodDerived: "Calcolo (P/f/τ)",
+                methodDirect: "Diretto (E/Classe)",
+                pulseEnergy: "Energia Impulso",
+                pulseClass: "Classe Temporale",
+                power: "Potenza Emessa",
+                avgPower: "Potenza Media Massima",
+                freq: "Frequenza Min. (PRR)",
+                duration: "Durata Impulso (τ)",
+                results: "Risultati Stimati",
+                awaiting: "Compila i parametri e calcola...",
+                calcBtn: "Calcola DPI",
+                infoBtn: "Verifica Conformità DPI",
+                errorCheck: "Seleziona almeno un regime di emissione.",
+                errorVal: "Inserisci valori validi > 0. La lunghezza d'onda deve essere ≥ 180 nm.",
+                errorBounds: "Lunghezza d'onda fuori dai limiti della tabella (LUT).",
+                area: "Area Fascio:",
+                density: "Densità:",
+                calcInfoTitle: "Conformità Standard EN 207",
+                calcInfoDesc: "I calcoli utilizzano i limiti di esposizione verificati direttamente dalla Tabella 9-5 della norma EN207. L'algoritmo passa in modo dinamico dalla densità di potenza (W/m²) a quella di energia (J/m²) in base ai criteri di classe temporale e banda.",
+                modalTitle: "Conformità EN 207 / 208",
+                modalP1: "<strong>1. Marcatura CE:</strong> Assicurarsi che i DPI rechino il marchio CE (Regolamento UE 2016/425).",
+                modalP2: "<strong>2. Certificazione LSO:</strong> La stima implementa i limiti della Tabella 9-5. La selezione finale richiede l'approvazione di un ASL ai sensi della Direttiva 2006/25/CE.",
+                modalP3: "<strong>3. Correzione Termica:</strong> L'algoritmo valuta la potenza media per alte frequenze, restituendo il grado LB più restrittivo.",
+                modalP4: "<strong>4. Specifica EN 208:</strong> La classificazione per allineamento (R1-R5) è limitata allo spettro visibile (400–700 nm).",
+                modalP5: "<strong>5. Tabelle di Riferimento:</strong> <br><a href='https://www.ucc.ie/en/media/training/workthings/UCCLaserSafetyGuidelines.pdf' target='_blank' class='text-amber-500 hover:text-amber-400 underline font-medium mt-1 inline-block'>Consulta la Tabella 9-5 EN 207 nelle Linee Guida UCC (PDF)</a>.",
+                close: "Chiudi",
+                legalDisclaimer: "<strong class='text-gray-300'>Avvertenza Legale:</strong> Questa applicazione fornisce stime teoriche basate sui parametri EN 207/208 ed è intesa esclusivamente per valutazioni preliminari. Non sostituisce in alcun modo una valutazione formale del rischio. La selezione finale dei DPI deve essere ratificata da un <strong>Addetto alla Sicurezza Laser (ASL)</strong> in conformità alle valutazioni del rischio sul luogo di lavoro previste dalla <strong>Direttiva 2006/25/CE</strong> (D.Lgs. 81/08), utilizzando dispositivi con <strong>marcatura CE</strong> conformi al <strong>Regolamento (UE) 2016/425</strong>. L'utilizzo di questo strumento è a proprio rischio; lo sviluppatore declina ogni responsabilità per danni, lesioni o mancate conformità. Gli algoritmi implementati costituiscono proprietà intellettuale protetta."
             }
         };
 
-        let currentLang = 'it';
+        let currentLang = 'en';
 
         // --- DOM Elements ---
         const UI = {
@@ -388,14 +379,14 @@
         }));
 
         UI.langToggle.addEventListener('click', () => {
-            currentLang = currentLang === 'it' ? 'en' : 'it';
-            UI.langLabel.textContent = currentLang === 'it' ? 'EN' : 'IT';
+            currentLang = currentLang === 'en' ? 'it' : 'en';
+            UI.langLabel.textContent = currentLang === 'en' ? 'IT' : 'EN';
             updateLanguage(currentLang);
-            if(UI.resultsContainer.innerHTML.includes('LB')) calculatePPE(); 
+            if(UI.resultsContainer.innerHTML.includes('LB') || UI.resultsContainer.innerHTML.includes('EN 208')) calculatePPE(); 
         });
+        
         UI.btnCalc.addEventListener('click', calculatePPE);
         
-        // Modal Logic
         UI.btnInfo.addEventListener('click', () => {
             UI.modal.classList.remove('hidden');
             document.body.classList.add('modal-open');
@@ -419,7 +410,7 @@
             }, 300);
         }
 
-        // --- Functions ---
+        // --- Core Functions ---
         function updateLanguage(lang) {
             document.querySelectorAll('[data-i18n]').forEach(el => {
                 const key = el.getAttribute('data-i18n');
@@ -429,12 +420,62 @@
 
         function toggleInputContainers() {
             const modes = Array.from(UI.checkboxes).filter(cb => cb.checked).map(cb => cb.value);
-            
-            if (modes.includes('CW')) UI.cwContainer.classList.remove('hidden');
-            else UI.cwContainer.classList.add('hidden');
+            UI.cwContainer.classList.toggle('hidden', !modes.includes('CW'));
+            UI.pulsedContainer.classList.toggle('hidden', !modes.includes('PULSED'));
+        }
 
-            if (modes.includes('PULSED')) UI.pulsedContainer.classList.remove('hidden');
-            else UI.pulsedContainer.classList.add('hidden');
+        /**
+         * Strict implementation of EN207 Table 9-5 limits.
+         * Returns an object dictating the base limit value and required unit type (E vs H).
+         */
+        function getEN207BaseLimit(wl, mode) {
+            if (wl >= 180 && wl <= 315) {
+                if (mode === 'D') return { val: 0.01, type: 'E' };
+                if (mode === 'I' || mode === 'R') return { val: 3e2, type: 'H' };
+                if (mode === 'M') return { val: 3e11, type: 'E' };
+            }
+            if (wl > 315 && wl <= 1400) {
+                if (mode === 'D') return { val: 1e2, type: 'E' };
+                if (mode === 'I' || mode === 'R') return { val: 0.05, type: 'H' };
+                if (mode === 'M') return { val: 1.5e-3, type: 'H' };
+            }
+            if (wl > 1400 && wl <= 1000000) {
+                if (mode === 'D') return { val: 1e4, type: 'E' };
+                if (mode === 'I' || mode === 'R') return { val: 1e3, type: 'H' };
+                if (mode === 'M') return { val: 1e12, type: 'E' };
+            }
+            return null;
+        }
+
+        function getEN208Rating(powerW) {
+            if (powerW <= 0.01) return 'R1';
+            if (powerW <= 0.1) return 'R2';
+            if (powerW <= 1.0) return 'R3';
+            if (powerW <= 10.0) return 'R4';
+            if (powerW <= 50.0) return 'R5';
+            return 'Exceeds EN 208 max (50W)';
+        }
+
+        function renderResultCard(assignedMode, lbScale, wl, density, densityUnitStr, calcDetails, isThermalCorr = false) {
+            const tag = isThermalCorr ? `<span class="bg-red-500/20 text-red-400 text-[10px] px-1.5 py-0.5 rounded border border-red-500/30 ml-2">THERMAL LIMIT</span>` : '';
+            return `
+                <div class="bg-amber-900/20 p-4 rounded-xl border border-amber-500/30 flex flex-col relative overflow-hidden">
+                    <div class="absolute right-0 top-0 w-16 h-16 bg-amber-500/10 rounded-bl-full -z-10"></div>
+                    <div class="flex justify-between items-baseline mb-2">
+                        <span class="text-amber-500 font-bold text-xl drop-shadow-sm flex items-center">
+                            ${assignedMode} LB${lbScale} ${tag}
+                        </span>
+                        <span class="text-gray-400 text-xs font-medium px-2 py-1 bg-gray-800 rounded-md">@ ${wl} nm</span>
+                    </div>
+                    <div class="flex justify-between items-center mt-1 pt-3 border-t border-amber-500/20">
+                        <div class="flex flex-col">
+                            <span class="text-gray-400 text-xs">${dict[currentLang].density}</span>
+                            ${calcDetails}
+                        </div>
+                        <span class="text-gray-200 text-sm font-mono">${density.toExponential(2)} ${densityUnitStr}</span>
+                    </div>
+                </div>
+            `;
         }
 
         function calculatePPE() {
@@ -449,7 +490,7 @@
             const wl = parseFloat(document.getElementById('wavelength').value);
             const diam = parseFloat(document.getElementById('diameter').value);
 
-            if (!wl || !diam || wl <= 0 || diam <= 0) {
+            if (!wl || !diam || wl < 180 || diam <= 0) {
                 showError(dict[currentLang].errorVal);
                 return;
             }
@@ -457,6 +498,7 @@
             const radiusM = (diam / 1000) / 2;
             const areaM2 = Math.PI * radiusM * radiusM;
             const areaCm2 = areaM2 * 10000;
+            let peakPowerForEn208 = 0; 
 
             let htmlOutput = `
                 <div class="bg-gray-700 p-3 rounded-xl border border-gray-600 mb-4 flex justify-between items-center shadow-inner">
@@ -471,21 +513,33 @@
 
             for (const regime of modes) {
                 let density, lbScale = 0, assignedMode = '';
-                let isCW = regime === 'CW';
                 let calcDetails = '';
 
-                if (isCW) {
+                if (regime === 'CW') {
                     let val = parseFloat(document.getElementById('cwPowerVal').value);
                     let unit = document.getElementById('cwPowerUnit').value;
                     if(!val || val <= 0) { showError(dict[currentLang].errorVal); return; }
+                    
                     let powerW = unit === 'mW' ? val / 1000 : val;
+                    peakPowerForEn208 = Math.max(peakPowerForEn208, powerW);
+                    
                     density = powerW / areaM2; // W/m^2
                     assignedMode = 'D';
+
+                    let limitData = getEN207BaseLimit(wl, assignedMode);
+                    if (!limitData) { showError(dict[currentLang].errorBounds); return; }
+
+                    lbScale = Math.ceil(Math.log10(density / limitData.val) + 1);
+                    lbScale = Math.max(1, Math.min(10, lbScale));
+                    
+                    htmlOutput += renderResultCard(assignedMode, lbScale, wl, density, 'W/m²', calcDetails);
+
                 } else {
                     const pulseMethod = document.querySelector('input[name="pulseInputMethod"]:checked').value;
+                    let energyJ = 0, avgPowerW = 0;
+                    let durSec = 1e-9; // Fallback duration
                     
                     if (pulseMethod === 'derived') {
-                        // Logic: Calculate Energy & Determine Mode (I, R, M)
                         let pVal = parseFloat(document.getElementById('pulsePowerVal').value);
                         let pUnit = document.getElementById('pulsePowerUnit').value;
                         let fVal = parseFloat(document.getElementById('freqVal').value);
@@ -495,76 +549,104 @@
 
                         if(!pVal || !fVal || !dVal || pVal <= 0 || fVal <= 0 || dVal <= 0) { showError(dict[currentLang].errorVal); return; }
 
-                        let powerW = pUnit === 'mW' ? pVal / 1000 : pVal;
+                        avgPowerW = pUnit === 'mW' ? pVal / 1000 : pVal;
                         let freqHz = fUnit === 'kHz' ? fVal * 1000 : fVal;
                         
-                        let durSec = dVal;
+                        durSec = dVal;
                         if (dUnit === 'ms') durSec *= 1e-3;
                         if (dUnit === 'us') durSec *= 1e-6;
                         if (dUnit === 'ns') durSec *= 1e-9;
                         if (dUnit === 'ps') durSec *= 1e-12;
                         if (dUnit === 'fs') durSec *= 1e-15;
 
-                        let energyJ = powerW / freqHz;
-                        density = energyJ / areaM2; // J/m^2
-                        calcDetails = `<span class="text-amber-400 font-mono block mt-1">E<sub>pulse</sub> = ${(energyJ * 1000).toFixed(4)} mJ</span>`;
+                        energyJ = avgPowerW / freqHz;
 
                         if (durSec < 1e-9) assignedMode = 'M';
-                        else if (durSec < 1e-6) assignedMode = 'R';
+                        else if (durSec < 1e-7) assignedMode = 'R';
                         else if (durSec <= 0.25) assignedMode = 'I';
                         else assignedMode = 'D';
 
                     } else {
-                        // Logic: Direct Energy and Manual Class Selection
                         let eVal = parseFloat(document.getElementById('directEnergyVal').value);
                         let eUnit = document.getElementById('directEnergyUnit').value;
                         assignedMode = document.getElementById('directModeVal').value;
 
                         if(!eVal || eVal <= 0) { showError(dict[currentLang].errorVal); return; }
 
-                        let energyJ = eUnit === 'mJ' ? eVal / 1000 : eVal;
-                        density = energyJ / areaM2; // J/m^2
-                        calcDetails = `<span class="text-amber-400 font-mono block mt-1">E<sub>pulse</sub> = ${(energyJ * 1000).toFixed(4)} mJ (Dir)</span>`;
+                        energyJ = eUnit === 'mJ' ? eVal / 1000 : eVal;
+                        
+                        // Conservative assumption for Peak Power estimation if direct input omits duration
+                        if (assignedMode === 'I') durSec = 1e-7;
+                        if (assignedMode === 'R') durSec = 1e-9;
+                        if (assignedMode === 'M') durSec = 1e-13; // 100fs assumption for max safety
+                    }
+
+                    // 1. Calculate Pulse Energy LB based on Table 9-5 required Units (E vs H)
+                    let limitDataPulse = getEN207BaseLimit(wl, assignedMode);
+                    if (!limitDataPulse) { showError(dict[currentLang].errorBounds); return; }
+                    
+                    let densityForCalc, unitStr;
+
+                    if (limitDataPulse.type === 'E') {
+                        // Requires Peak Power Density (W/m²)
+                        let peakPowerW = energyJ / durSec;
+                        densityForCalc = peakPowerW / areaM2;
+                        unitStr = 'W/m²';
+                        calcDetails = `<span class="text-amber-400 font-mono block mt-1">P<sub>peak</sub> = ${(peakPowerW / 1000).toFixed(2)} kW</span>`;
+                    } else {
+                        // Requires Energy Density (J/m²)
+                        densityForCalc = energyJ / areaM2;
+                        unitStr = 'J/m²';
+                        calcDetails = `<span class="text-amber-400 font-mono block mt-1">E<sub>pulse</sub> = ${(energyJ * 1000).toFixed(4)} mJ</span>`;
+                    }
+                    
+                    let lbScalePulse = Math.ceil(Math.log10(densityForCalc / limitDataPulse.val) + 1);
+                    lbScalePulse = Math.max(1, Math.min(10, lbScalePulse));
+
+                    // 2. Thermal Correction (D-Mode checking against Average Power)
+                    let lbScaleThermal = 0;
+                    let thermalDensity = 0;
+                    if (pulseMethod === 'derived' && avgPowerW > 0) {
+                        thermalDensity = avgPowerW / areaM2; // W/m^2
+                        peakPowerForEn208 = Math.max(peakPowerForEn208, avgPowerW);
+
+                        let limitDataD = getEN207BaseLimit(wl, 'D');
+                        if (limitDataD) {
+                            lbScaleThermal = Math.ceil(Math.log10(thermalDensity / limitDataD.val) + 1);
+                            lbScaleThermal = Math.max(1, Math.min(10, lbScaleThermal));
+                        }
+                    }
+
+                    // 3. Mandate highest constraint
+                    if (lbScaleThermal > lbScalePulse) {
+                        htmlOutput += renderResultCard(assignedMode + ' & D', lbScaleThermal, wl, thermalDensity, 'W/m²', `<span class="text-red-400 font-mono block mt-1">Avg Power: ${avgPowerW} W</span>`, true);
+                    } else {
+                        htmlOutput += renderResultCard(assignedMode, lbScalePulse, wl, densityForCalc, unitStr, calcDetails);
                     }
                 }
+            }
 
-                // Simplified EN 207 mapping
-                if (wl >= 315 && wl <= 1400) {
-    if (assignedMode === 'D') lbScale = Math.ceil(Math.log10(density) - 1)  // was: no offset
-    else if (assignedMode === 'I') lbScale = Math.ceil(Math.log10(density) - 1) + 1
-    else if (assignedMode === 'R') lbScale = Math.ceil(Math.log10(density) - 1) + 2
-    else if (assignedMode === 'M') lbScale = Math.ceil(Math.log10(density) - 1) + 4
-} else if (wl >= 1400 && wl <= 10600) {
-    if (assignedMode === 'D') lbScale = Math.ceil(Math.log10(density) - 3)  // was: -1
-    else lbScale = Math.ceil(Math.log10(density) - 2)
-}
-
-
-                lbScale = Math.max(1, Math.min(10, lbScale)); // Clamp 1-10
-                
-                let densityUnitStr = isCW ? 'W/m²' : 'J/m²';
-                
+            // EN 208 Alignment Check (Visible Spectrum Only)
+            if (wl >= 400 && wl <= 700 && peakPowerForEn208 > 0) {
+                let rRating = getEN208Rating(peakPowerForEn208);
                 htmlOutput += `
-                    <div class="bg-amber-900/20 p-4 rounded-xl border border-amber-500/30 flex flex-col relative overflow-hidden">
-                        <div class="absolute right-0 top-0 w-16 h-16 bg-amber-500/10 rounded-bl-full -z-10"></div>
+                    <div class="bg-blue-900/20 p-4 rounded-xl border border-blue-500/30 flex flex-col relative overflow-hidden mt-2">
+                        <div class="absolute right-0 top-0 w-16 h-16 bg-blue-500/10 rounded-bl-full -z-10"></div>
                         <div class="flex justify-between items-baseline mb-2">
-                            <span class="text-amber-500 font-bold text-xl drop-shadow-sm">${assignedMode} LB${lbScale}</span>
-                            <span class="text-gray-400 text-xs font-medium px-2 py-1 bg-gray-800 rounded-md">@ ${wl} nm</span>
+                            <span class="text-blue-400 font-bold text-lg drop-shadow-sm flex items-center space-x-2">
+                                <i data-lucide="eye" class="w-5 h-5"></i>
+                                <span>EN 208: ${rRating}</span>
+                            </span>
+                            <span class="text-gray-400 text-[10px] font-bold tracking-wider px-2 py-1 bg-gray-800 rounded-md uppercase">Alignment Laser</span>
                         </div>
-                        <div class="flex justify-between items-center mt-1 pt-3 border-t border-amber-500/20">
-                            <div class="flex flex-col">
-                                <span class="text-gray-400 text-xs">${dict[currentLang].density}</span>
-                                ${calcDetails}
-                            </div>
-                            <span class="text-gray-200 text-sm font-mono">${density.toExponential(2)} ${densityUnitStr}</span>
-                        </div>
+                        <p class="text-xs text-gray-400 mt-1">Based on CW/Average power (${peakPowerForEn208} W) in the visible spectrum.</p>
                     </div>
                 `;
             }
 
             htmlOutput += `</div>`;
             
-            // Append methodology info block
+            // Methodology Info
             htmlOutput += `
                 <div class="mt-5 p-4 bg-gray-900/60 rounded-xl border border-gray-700 text-xs text-gray-400 leading-relaxed shadow-inner">
                     <strong class="text-amber-500 block mb-2 text-sm flex items-center space-x-2">
