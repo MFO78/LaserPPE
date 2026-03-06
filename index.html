@@ -530,16 +530,15 @@
 
                 // Simplified EN 207 mapping
                 if (wl >= 315 && wl <= 1400) {
-                    if (assignedMode === 'D') lbScale = Math.ceil(Math.log10(density));
-                    else if (assignedMode === 'I') lbScale = Math.ceil(Math.log10(density) + 1);
-                    else if (assignedMode === 'R') lbScale = Math.ceil(Math.log10(density) + 2);
-                    else if (assignedMode === 'M') lbScale = Math.ceil(Math.log10(density) + 4);
-                } else if (wl > 1400 && wl <= 10600) {
-                    if (assignedMode === 'D') lbScale = Math.ceil(Math.log10(density) - 1);
-                    else lbScale = Math.ceil(Math.log10(density));
-                } else {
-                    lbScale = Math.ceil(Math.log10(density) + 1); // Generic fallback
-                }
+    if (assignedMode === 'D') lbScale = Math.ceil(Math.log10(density) - 1)  // was: no offset
+    else if (assignedMode === 'I') lbScale = Math.ceil(Math.log10(density) - 1) + 1
+    else if (assignedMode === 'R') lbScale = Math.ceil(Math.log10(density) - 1) + 2
+    else if (assignedMode === 'M') lbScale = Math.ceil(Math.log10(density) - 1) + 4
+} else if (wl >= 1400 && wl <= 10600) {
+    if (assignedMode === 'D') lbScale = Math.ceil(Math.log10(density) - 3)  // was: -1
+    else lbScale = Math.ceil(Math.log10(density) - 2)
+}
+
 
                 lbScale = Math.max(1, Math.min(10, lbScale)); // Clamp 1-10
                 
