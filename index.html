@@ -659,7 +659,7 @@
 
                     // 3. Mandate highest constraint
                     if (lbScaleThermal > lbScalePulse) {
-                        htmlOutput += renderResultCard(assignedMode + ' & D', lbScaleThermal, wl, thermalDensity, 'W/m²', `<span class="text-red-400 font-mono block mt-1">Avg Power: ${avgPowerW.toFixed(3)} W</span>`, true);
+                        htmlOutput += renderResultCard(assignedMode + ' & D', lbScaleThermal, wl, thermalDensity, 'W/m²', `<span class="text-red-400 font-mono block mt-1">Avg Power: ${avgPowerW.toFixed(1)} W</span>`, true);
                     } else {
                         htmlOutput += renderResultCard(assignedMode, lbScalePulse, wl, densityForCalc, unitStr, calcDetails);
                     }
